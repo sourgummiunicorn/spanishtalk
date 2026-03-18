@@ -2,6 +2,19 @@
 
 A voice-first Spain Spanish (es-ES) conversation practice web app for absolute beginners.
 
+## Quick Start (no API key needed)
+
+```bash
+npm install
+npm run dev
+```
+
+Then open **http://localhost:3000** in your browser.
+
+That's it — the app runs in **demo mode** by default, so you can click through the full flow (name entry → mic recording → AI reply) without any API keys. When you're ready to use real AI, see [Setup](#setup) below.
+
+> **Requirements:** Node.js 18+ and npm.
+
 ## Features
 - 🎙️ Voice-first conversation with an AI partner (Carlos)
 - 🇪🇸 Spain Spanish (distinción, vosotros) at A0/A1 level
