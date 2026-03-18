@@ -61,7 +61,7 @@ export default function NameGate({ onStart }: Props) {
           </button>
         </form>
         <p className="text-gray-400 text-xs mt-6">
-          No account required · Demo mode works without API keys
+          No account or login required &mdash; demo mode works without any API keys
         </p>
       </div>
     </div>

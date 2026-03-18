@@ -2,7 +2,7 @@
 
 A voice-first Spain Spanish (es-ES) conversation practice web app for absolute beginners.
 
-## Quick Start (no API key needed)
+## Quick Start (no account, no login, no API key needed)
 
 ```bash
 npm install
@@ -11,9 +11,15 @@ npm run dev
 
 Then open **http://localhost:3000** in your browser.
 
-That's it — the app runs in **demo mode** by default, so you can click through the full flow (name entry → mic recording → AI reply) without any API keys. When you're ready to use real AI, see [Setup](#setup) below.
+**You do not need an OpenAI account.** The app runs in **demo mode** by default — enter your name, tap the mic button, and walk through the full conversation flow with pre-written mock responses. No sign-up, no login, no birthday prompt, no credit card.
 
 > **Requirements:** Node.js 18+ and npm.
+
+### Do I need to log in to OpenAI?
+
+**No — not to try the app.** Demo mode uses hard-coded mock responses and works entirely offline (no API calls).
+
+You only need an OpenAI account if you want **real** AI responses (live speech recognition, GPT-4o-mini replies, and text-to-speech audio). In that case you would go to [platform.openai.com](https://platform.openai.com) to create an account and generate an API key — OpenAI does ask for age verification (birthday) as part of account sign-up. But this is completely optional and only needed for the paid/live AI features. See [Setup](#setup) below.
 
 ## Features
 - 🎙️ Voice-first conversation with an AI partner (Carlos)
@@ -24,29 +30,33 @@ That's it — the app runs in **demo mode** by default, so you can click through
 
 ## Setup
 
-### 1. Install dependencies
-```bash
-npm install
-```
+### Option A — Demo mode (no account required)
 
-### 2. Configure environment variables
-Copy the example and fill in your keys:
-```bash
-cp .env.example .env.local
-```
+Just run `npm install && npm run dev`. No configuration needed. The app detects that no API key is set and falls back to demo mode automatically.
 
-Edit `.env.local`:
+### Option B — Real AI (OpenAI account required)
+
+> ⚠️ OpenAI's sign-up flow asks for your birthday as part of age verification. This is only needed if you want live AI features. Demo mode works without any account.
+
+1. Create an account at [platform.openai.com](https://platform.openai.com) and generate an API key.
+2. Copy the environment template:
+   ```bash
+   cp .env.example .env.local
+   ```
+3. Open `.env.local` and paste your key:
+   ```
+   OPENAI_API_KEY=sk-...
+   ```
+4. Run the dev server:
+   ```bash
+   npm run dev
+   ```
+
+`.env.local` variables:
 | Variable | Description |
 |---|---|
 | `OPENAI_API_KEY` | OpenAI API key for ASR (Whisper), chat (GPT-4o-mini), TTS |
-| `APP_MODE` | Set to `demo` to use mock responses without keys |
-
-### 3. Run the dev server
-```bash
-npm run dev
-```
-
-Open [http://localhost:3000](http://localhost:3000).
+| `APP_MODE` | Set to `demo` to force mock responses even when a key is present |
 
 ## ASR / TTS / Chat configuration
 
