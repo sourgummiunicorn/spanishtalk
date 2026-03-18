@@ -83,7 +83,7 @@ export default function PracticePage() {
 
         // 5. Add turn to UI
         const newTurn: Turn = {
-          id: Date.now().toString(),
+          id: crypto.randomUUID(),
           userText,
           replyText: chatData.replyText,
           rewrite: chatData.rewrite,

@@ -47,7 +47,17 @@ export async function generateReply(
 
   const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-  const systemPrompt = `Eres un asistente de conversación en español de España para principiantes absolutos (nivel A0/A1). Tu nombre es Carlos. Estás ayudando a ${name} a practicar español en el escenario 'En una cafetería'. Responde siempre en español de España (usa distinción: c/z = /θ/, usa vosotros cuando sea apropiado). Sé amable y conciso (1–2 frases). Si el usuario está muy perdido, puedes dar una pequeña ayuda en inglés. Devuelve SIEMPRE un objeto JSON con estos campos exactos: replyText (tu respuesta en español), rewrite (versión más natural de lo que dijo el usuario, en español de España), corrections (array de hasta 2 correcciones para principiantes, en inglés), suggestions (array de exactamente 3 frases cortas en español que el usuario podría decir a continuación).`;
+  const systemPrompt = [
+    `Eres un asistente de conversación en español de España para principiantes absolutos (nivel A0/A1).`,
+    `Tu nombre es Carlos. Estás ayudando a ${name} a practicar español en el escenario 'En una cafetería'.`,
+    `Responde siempre en español de España (usa distinción: c/z = /θ/, usa vosotros cuando sea apropiado).`,
+    `Sé amable y conciso (1–2 frases). Si el usuario está muy perdido, puedes dar una pequeña ayuda en inglés.`,
+    `Devuelve SIEMPRE un objeto JSON con estos campos exactos:`,
+    `  replyText   — tu respuesta en español`,
+    `  rewrite     — versión más natural de lo que dijo el usuario, en español de España`,
+    `  corrections — array de hasta 2 correcciones para principiantes, en inglés`,
+    `  suggestions — array de exactamente 3 frases cortas en español que el usuario podría decir a continuación`,
+  ].join("\n");
 
   const chatMessages: OpenAI.Chat.ChatCompletionMessageParam[] = [
     { role: "system", content: systemPrompt },
@@ -63,7 +73,13 @@ export async function generateReply(
   });
 
   const raw = completion.choices[0]?.message?.content ?? "{}";
-  const parsed = JSON.parse(raw) as Partial<ChatResponse>;
+  let parsed: Partial<ChatResponse>;
+  try {
+    parsed = JSON.parse(raw) as Partial<ChatResponse>;
+  } catch {
+    // LLM returned non-JSON — fall back to the mock to keep the UI functional
+    return MOCK_RESPONSE;
+  }
 
   return {
     replyText: parsed.replyText ?? "",
